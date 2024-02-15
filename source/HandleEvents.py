@@ -61,7 +61,7 @@ class HandleEvents():
                 
         self.startPoint.x += self.moveX
         self.startPoint.y += self.moveY
-        
+        """
         if self.startPoint.x > 0:
             self.startPoint.x = 0
         
@@ -73,16 +73,17 @@ class HandleEvents():
         
         if self.startPoint.y < -((self.scale*self.mapHeight) -self.screenHeight):
             self.startPoint.y = -((self.scale*self.mapHeight) -self.screenHeight)
+            """
         
         return self.scale, self.startPoint, self.mousePressed
     
     def cameraMouseMove(self, mousePosX, mousePosY):
         if mousePosX < self.margin:
             self.startPoint.x += self.cameraMoveSpeed
+        if mousePosX > self.screenWidth - self.margin:
+            self.startPoint.x += -self.cameraMoveSpeed     
         if mousePosY < self.margin:
             self.startPoint.y += self.cameraMoveSpeed
-        if mousePosX > self.screenWidth - self.margin:
-            self.startPoint.x += -self.cameraMoveSpeed
         if mousePosY > self.screenHeight - self.margin:
             self.startPoint.y += -self.cameraMoveSpeed
         

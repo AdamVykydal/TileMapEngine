@@ -10,8 +10,8 @@ class Game:
     def __init__(self):
         self.screen = pygame.display.set_mode()
         self.renderer = Renderer()
-        self.mapWidt = 300
-        self.mapHeight = 300
+        self.mapWidt = 200
+        self.mapHeight = 200
         self.tileMapTerrein = TileMap(self.mapWidt, self.mapHeight)
         self.tileMapObjects = TileMap(self.mapWidt, self.mapHeight)
         self.clock = pygame.time.Clock()
@@ -24,8 +24,8 @@ class Game:
             mousePosX, mousePosY = pygame.mouse.get_pos()
             self.startPoint = self.handleEvents.cameraMouseMove(mousePosX, mousePosY)
             self.scale, self.startPoint, mousePressed = self.handleEvents.check()
-            #self.screen.fill((0, 0, 0))
+            self.screen.fill((0, 0, 0))
             self.renderer.renderTerrein(self. screen, self.tileMapTerrein.tiles, self.scale, copy.deepcopy(self.startPoint), mousePressed, (mousePosX,mousePosY))
             self.renderer.renderObjects(self. screen, self.tileMapObjects.tiles, self.scale, copy.copy(self.startPoint), mousePressed, (mousePosX,mousePosY))
-            pygame.display.flip()
+            pygame.display.update()
             print(self.clock.get_fps())
