@@ -15,8 +15,7 @@ class LoadTextures:
                 image_path = os.path.join(image_directory, filename)
                 image = pygame.image.load(image_path)
                 images[filename.replace(".png","")] = image
-                print(images)
-
-LoadTextures.run()
+                
+        return images
         
 

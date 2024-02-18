@@ -4,8 +4,8 @@ import copy
 
 class Renderer:
     def __init__(self):
-        self.originalTextureGrass = pygame.image.load("recources\img\grass.png").convert_alpha()
-        self.originalTextureSand = pygame.image.load("recources\img\sand.png").convert_alpha()
+        self.originalTextureGrass = pygame.image.load("recources\img\grass.png").convert()
+        self.originalTextureSand = pygame.image.load("recources\img\sand.png").convert()
         self.originalTextureHouse1 = pygame.image.load("recources\img\House1.png").convert_alpha()
         self.originalTextureHouse2 = pygame.image.load("recources\img\House2.png").convert_alpha()
         self.originalTextureHouse3 = pygame.image.load("recources\img\House3.png").convert_alpha()
@@ -18,11 +18,19 @@ class Renderer:
         self.texture4 = pygame.transform.scale(self.originalTextureHouse4, (self.oldTerreinScale, self.oldTerreinScale))
         self.grass = pygame.transform.scale(self.originalTextureGrass, (self.oldTerreinScale, self.oldTerreinScale))
         self.sand = pygame.transform.scale(self.originalTextureSand, (self.oldTerreinScale, self.oldTerreinScale))
+        #self.surface = pygame.Surface(self.oldTerreinScale,self.oldTerreinScale)
+        
         self.screenEndY = 1080 + self.oldTerreinScale
         self.screenEndX = 1920 + self.oldTerreinScale
         
+    def renderChunks(self, screen, scale, chunkSurface, startPointCoords):
+        return screen.blit(pygame.transform.scale(chunkSurface, (scale,scale)),(startPointCoords.x, startPointCoords.y))
+        
+        
+    
     def renderTerrein(self, screen, tiles, scale, startPointCoords, mousePressed, mousePos):
-        self.startPointCoords = copy.copy(startPointCoords)
+        #print(startPointCoords.x, startPointCoords.y)
+        self.startPointCoords = copy.deepcopy(startPointCoords)
         if not self.oldTerreinScale == scale:
             self.grass = pygame.transform.scale(self.originalTextureGrass, (scale, scale))
             self.sand = pygame.transform.scale(self.originalTextureSand, (scale, scale))
@@ -30,25 +38,42 @@ class Renderer:
             #self.screenEndX = 1920 + scale
             self.oldTerreinScale = scale
             
-        rowIndex = 0
+        #print("start:",startPointCoords.x, startPointCoords.y)
         
         #startTileY = startPointCoords.y // scale
         #startTileY = abs(startTileY)
         #startTileX = startPointCoords.x // scale
         #startTileX = abs(startTileX)
+        #endTileY = startTileY + (1080 // scale)
+        #endTileX = startTileX + (1920 // scale)
        
         #print(startTileY)
         #print(startTileX)
         
+        #print("starTile:", startTileX, startTileY)
+        #print("endTile:", endTileX, endTileY)
+        
+        
+        #print(startTileX, "/", endTileX, startTileY,"/", endTileY)
+        #screenTiles = [sublist[startTileX:endTileX] for sublist in tiles[startTileY:endTileY]]
+        
+        #print("before:",startPointCoords.x, startPointCoords.y)
+        #print(screenTiles)
+        rowIndex = 0
+        
         for row in tiles:
             self.startPointCoords.x = copy.deepcopy(startPointCoords.x)
+            #print(self.startPointCoords.x, self.startPointCoords.y)
             tileIndex = 0
             
+            
+            #print(screenTiles)
             for tile in row:
+                
+                #print("In:",startPointCoords.x, startPointCoords.y)
                 if self.startPointCoords.y >= -scale and self.startPointCoords.y <= 1080 and self.startPointCoords.x >= -scale and self.startPointCoords.x <= 1920:
                     
                     if tile == 0:
-                        #rectangle = self.grass.get_rect(topleft= (self.coords.x, self.coords.y))
                     
                         #if rectangle.collidepoint(mousePos) and mousePressed:
                             #tiles[rowIndex][tileIndex] = 2.1
@@ -56,15 +81,16 @@ class Renderer:
                             #tiles[rowIndex - 1][tileIndex ] = 2.3
                             #tiles[rowIndex - 1][tileIndex + 1] = 2.4
 
-                        
+                        #print(self.startPointCoords.x, self.startPointCoords.y)
                         screen.blit(self.grass, (self.startPointCoords.x, self.startPointCoords.y))
+                        #print(a.x, a.y)
                         
                     
                     elif tile == 1:
                         rectangle = self.sand.get_rect(topleft= (self.startPointCoords.x, self.startPointCoords.y))
                         
                         if rectangle.collidepoint(mousePos) and mousePressed:
-                            tiles[rowIndex][tileIndex] = 0
+                            tiles[rowIndex][tileIndex] = 1
                         
                         screen.blit(self.sand, rectangle)
                 
