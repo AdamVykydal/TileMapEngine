@@ -3,26 +3,44 @@ import pygame
 import copy
 
 class Renderer:
-    def __init__(self):
+    def __init__(self, startPoint):
         self.originalTextureGrass = pygame.image.load("recources\img\grass.png").convert()
         self.originalTextureSand = pygame.image.load("recources\img\sand.png").convert()
         self.originalTextureHouse1 = pygame.image.load("recources\img\House1.png").convert_alpha()
         self.originalTextureHouse2 = pygame.image.load("recources\img\House2.png").convert_alpha()
         self.originalTextureHouse3 = pygame.image.load("recources\img\House3.png").convert_alpha()
         self.originalTextureHouse4 = pygame.image.load("recources\img\House4.png").convert_alpha()
-        self.oldObjectScale = 32
-        self.oldTerreinScale = 32
+        self.oldObjectScale = 0
+        self.oldTerreinScale = 4800
+        self.oldStartPointCoords = startPoint
+        self.oldStartPointCoords.x = 10
         self.texture1 = pygame.transform.scale(self.originalTextureHouse1, (self.oldTerreinScale, self.oldTerreinScale))
         self.texture2 = pygame.transform.scale(self.originalTextureHouse2, (self.oldTerreinScale, self.oldTerreinScale))
         self.texture3 = pygame.transform.scale(self.originalTextureHouse3, (self.oldTerreinScale, self.oldTerreinScale))
         self.texture4 = pygame.transform.scale(self.originalTextureHouse4, (self.oldTerreinScale, self.oldTerreinScale))
         self.grass = pygame.transform.scale(self.originalTextureGrass, (self.oldTerreinScale, self.oldTerreinScale))
         self.sand = pygame.transform.scale(self.originalTextureSand, (self.oldTerreinScale, self.oldTerreinScale))
+        self.mapOnScreen = None
         #self.surface = pygame.Surface(self.oldTerreinScale,self.oldTerreinScale)
         
         self.screenEndY = 1080 + self.oldTerreinScale
         self.screenEndX = 1920 + self.oldTerreinScale
         
+    def renderScaleMap(self, screen, mapSurface, scale, startPointCoords):
+        
+ 
+        #if startPointCoords.x != self.oldStartPointCoords.x or startPointCoords.y != self.oldStartPointCoords.y:
+            #self.mapOnScreen = mapSurface.subsurface(abs(startPointCoords.x),abs(startPointCoords.y), scale, scale)
+            #self.oldStartPointCoords = startPointCoords
+            
+        #if scale != self.oldTerreinScale:
+            #self.mapOnScreen = pygame.transform.scale(self.mapOnScreen, (scale,scale))
+            #self.oldTerreinScale = scale
+            
+        screen.blit(mapSurface,(startPointCoords.x, startPointCoords.y))
+            
+
+   
     def renderChunks(self, screen, scale, chunkSurface, startPointCoords):
         return screen.blit(pygame.transform.scale(chunkSurface, (scale,scale)),(startPointCoords.x, startPointCoords.y))
         
